@@ -5,13 +5,26 @@ import Comment from "./Comment";
 import "./Comment.css";
 
 const CommentSection = props => {
+const [comments, setComments] = useState(props.comments)
+const [newComment, setNewComment] = useState("")
 
+const changeComment = event => setNewComment(event.target.value)
+
+const submitComment = event => {
+  event.preventDefault()
+  let c = {
+    username:"Nina",
+    text:newComment
+  }
+  setComments([...comments, c])
+  setNewComment("")
+  }
   return (
     <div>
-      {props.comments.map(comment => {
-        return <Comment  comment= {comment}/>
+      {comments.map((comment, index) => {
+        return <Comment key={index} comment={comment}/>
       })}
-      <CommentInput />
+      <CommentInput submitComment={submitComment} changeComment={changeComment} comment={newComment} />
     </div>
   );
 };
